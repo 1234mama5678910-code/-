@@ -1,2 +1,125 @@
 # -
 김명민입니다
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>연애 스타일 테스트</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffeef2;
+        text-align: center;
+        padding: 30px;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #ff4d6d;
+    }
+    button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #ff8fa3;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #ff4d6d;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💖 연애 스타일 테스트 💖</h1>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <h2 id="result"></h2>
+</div>
+
+<script>
+const questions = [
+    {
+        q: "연인과 연락 빈도는?",
+        a: ["자주 해야 안심된다", "적당히", "필요할 때만"]
+    },
+    {
+        q: "데이트 스타일은?",
+        a: ["계획적으로 준비", "상황에 따라", "즉흥적으로"]
+    },
+    {
+        q: "갈등이 생기면?",
+        a: ["바로 풀어야 한다", "시간을 두고 대화", "혼자 정리 후 얘기"]
+    },
+    {
+        q: "애정 표현은?",
+        a: ["자주, 적극적으로", "자연스럽게", "행동으로만"]
+    },
+    {
+        q: "연애에서 중요한 것은?",
+        a: ["안정감", "균형", "자유"]
+    }
+];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = questions[current];
+    document.getElementById("question").innerText = q.q;
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+
+    q.a.forEach((text, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = text;
+        btn.onclick = () => selectAnswer(index + 1);
+        answersDiv.appendChild(btn);
+    });
+}
+
+function selectAnswer(value) {
+    score += value;
+    current++;
+
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    let resultText = "";
+
+    if (score <= 7) {
+        resultText = "💘 애정 충만형\n깊은 교감과 표현을 중요하게 생각해요!";
+    } else if (score <= 11) {
+        resultText = "💑 균형형\n사랑과 개인 생활의 균형을 잘 맞춰요!";
+    } else {
+        resultText = "💙 자유로운 연애형\n서로의 공간과 자유를 존중해요!";
+    }
+
+    document.getElementById("question").innerText = "✨ 결과 ✨";
+    document.getElementById("answers").innerHTML = "";
+    document.getElementById("result").innerText = resultText;
+}
+
+// 시작
+loadQuestion();
+</script>
+
+</body>
+</html>
