@@ -1,0 +1,93 @@
+
+          다시 테스트하기
+        </button>
+      `;
+
+      startConfetti();
+
+      document.getElementById("restartBtn").addEventListener("click", restartQuiz);
+    }
+
+    function restartQuiz() {
+      stopConfetti();
+
+      current = 0;
+      score = [0, 0, 0, 0];
+
+      document.body.className = "bg-pink-50 flex items-center justify-center min-h-screen p-4";
+      app.className = "bg-white p-6 rounded-2xl shadow-xl w-full max-w-md text-center content-layer";
+
+      app.innerHTML = `
+        <h1 class="text-2xl font-bold mb-4">💖 연애 스타일 테스트</h1>
+        <div id="quiz"></div>
+      `;
+
+      showQuestion();
+    }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createConfetti() {
+      pieces = [];
+      for (let i = 0; i < 160; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 5 + 2,
+          dx: (Math.random() - 0.5) * 2,
+          dy: Math.random() * 3 + 2
+        });
+      }
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+
+      for (const p of pieces) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.y > canvas.height + 10) {
+          p.y = -10;
+          p.x = Math.random() * canvas.width;
+        }
+
+        if (p.x < -10) p.x = canvas.width + 10;
+        if (p.x > canvas.width + 10) p.x = -10;
+      }
+
+      animationId = requestAnimationFrame(drawConfetti);
+    }
+
+    function startConfetti() {
+      canvas.style.display = "block";
+      resizeCanvas();
+      createConfetti();
+      stopConfetti();
+      canvas.style.display = "block";
+      drawConfetti();
+    }
+
+    function stopConfetti() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = "none";
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    showQuestion();
+  </script>
+</body>
+</html>
